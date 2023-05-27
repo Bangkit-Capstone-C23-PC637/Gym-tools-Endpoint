@@ -1,11 +1,11 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Response
 import uvicorn
 from PIL import Image
 import numpy as np
 import tensorflow as tf
+import traceback
 
-
-model = tf.keras.models.load_model('./saved_model/something.h5')
+model = tf.keras.models.load_model('./saved_model/something_v2.h5')
 app = FastAPI()
 
 @app.get("/")
@@ -15,32 +15,39 @@ async def index():
 @app.post("/")
 
 async def predict(file: UploadFile=File(...)):
-    image = Image.open(file.file)
-    image = np.asarray(image.resize((150, 150)))
-    image = image/255
-    image = np.expand_dims(image, 0)
-    result = np.argmax(model.predict(image))
+    try:
+        image = Image.open(file.file)
+        image = np.asarray(image.resize((160, 160)))
+        image = image/255
+        image = np.expand_dims(image, 0)
+        result = np.argmax(model.predict(image))
 
-    if result == 0:
-      return 'Barbell'
-    elif result == 1:
-        return 'Dumbell'
-    elif result == 2:
-        return 'Gym ball'
-    elif result == 3:
-        return 'Kattle ball'
-    elif result == 4:
-        return 'Leg press'
-    elif result == 5:
-        return 'Punching bag'
-    elif result == 6:
-        return 'Roller ABS'
-    elif result == 7:
-        return 'Statis bicycle'
-    elif result == 8:
-        return 'Step'
-    elif result == 9:
-        return 'Treadmill'
+        if result == 0:
+            return {'result' : 'Barbell'}
+        elif result == 1:
+            return {'result':'Dumbell'}
+        elif result == 2:
+            return {'result':'Gym ball'}
+        elif result == 3:
+            return {'result':'Kattle ball'}
+        elif result == 4:
+            return {'result':'Leg press'}
+        elif result == 5:
+            return {'result':'Punching bag'}
+        elif result == 6:
+            return {'result':'Roller ABS'}
+        elif result == 7:
+            return {'result':'Statis bicycle'}
+        elif result == 8:
+            return {'result':'Step'}
+        elif result == 9:
+            return {'result':'Treadmill'}
 
+    except Exception as e:
+        traceback.print_exc()
+        return {"message" : "Internal Server Error"} 
+    
 if __name__ == '__main__':
-    uvicorn.run("myapi:app", host='127.0.0.1')
+    port = 8001
+    print(f"Listening to http://0.0.0.0:{port}")
+    uvicorn.run(app, host='0.0.0.0',port=port)
