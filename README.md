@@ -6,7 +6,7 @@
 |   Port Open  |                  8001                  |
 
 
-| Endpoint | Method |           Body Sent (JSON)          |                 Description                |
+| Endpoint | Method |                 Input               |                 Description                |
 |:--------:|:------:|:-----------------------------------:|:------------------------------------------:|
 |     /    |   GET  |                 None                |            Halo Bandung                    |
 |     /    |  POST  |                 Image               | Gym Tools Prediciton from Pretrained Model |
