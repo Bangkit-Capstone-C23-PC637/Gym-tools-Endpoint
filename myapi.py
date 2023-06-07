@@ -23,25 +23,55 @@ async def predict(file: UploadFile=File(...)):
         result = np.argmax(model.predict(image))
 
         if result == 0:
-            return {'result' : 'Barbell'}
+            return {
+                'id': '1',
+                'name' : 'Barbell'
+                }
         elif result == 1:
-            return {'result':'Dumbell'}
+            return {
+                'id': '2',
+                'name':'Dumbell'
+                }
         elif result == 2:
-            return {'result':'Gym ball'}
+            return {
+                'id': '3',
+                'name':'Gym ball'
+                }
         elif result == 3:
-            return {'result':'Kattle ball'}
+            return {
+                'id': '4',
+                'name':'Kattle ball'
+                }
         elif result == 4:
-            return {'result':'Leg press'}
+            return {
+                'id': '5',
+                'name':'Leg press'
+                }
         elif result == 5:
-            return {'result':'Punching bag'}
+            return {
+                'id': '6',
+                'name':'Punching bag'
+                }
         elif result == 6:
-            return {'result':'Roller ABS'}
+            return {
+                'id': '7',
+                'name':'Roller ABS'
+                }
         elif result == 7:
-            return {'result':'Statis bicycle'}
+            return {
+                'id': '8',
+                'name':'Statis bicycle'
+                }
         elif result == 8:
-            return {'result':'Step'}
+            return {
+                'id': '9',
+                'name':'Step'
+                }
         elif result == 9:
-            return {'result':'Treadmill'}
+            return {
+                'id': '10',
+                'name':'Treadmill'
+                }
 
     except Exception as e:
         traceback.print_exc()
