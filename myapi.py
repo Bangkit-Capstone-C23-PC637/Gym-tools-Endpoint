@@ -4,13 +4,14 @@ from PIL import Image
 import numpy as np
 import tensorflow as tf
 import traceback
+import time
 
 model = tf.keras.models.load_model('./saved_model/something_v2.h5')
 app = FastAPI()
 
 @app.get("/")
 async def index():
-    return "Halo Bandung!"
+    return "This is spofity!"
 
 @app.post("/")
 
@@ -20,57 +21,84 @@ async def predict(file: UploadFile=File(...)):
         image = np.asarray(image.resize((160, 160)))
         image = image/255
         image = np.expand_dims(image, 0)
-        result = np.argmax(model.predict(image))
 
-        if result == 0:
+        start_time = time.time()
+        result = model.predict(image)
+        end_time = time.time()
+        prediction = np.argmax(result)
+        time_predict = round(end_time - start_time,2)
+
+        accuracy = np.max(result)
+
+        if prediction == 0:
             return {
                 'id': '1',
-                'name' : 'Barbell'
+                'name' : 'Barbell',
+                "accuracy": float(accuracy),
+                "time_predict": float(time_predict),
                 }
-        elif result == 1:
+        elif prediction == 1:
             return {
                 'id': '2',
-                'name':'Dumbell'
+                'name':'Dumbell',
+                "accuracy": float(accuracy),
+                "time_predict": float(time_predict)
                 }
-        elif result == 2:
+        elif prediction == 2:
             return {
                 'id': '3',
-                'name':'Gym ball'
+                'name':'Gym ball',
+                "accuracy": float(accuracy),
+                "time_predict": float(time_predict)
                 }
-        elif result == 3:
+        elif prediction == 3:
             return {
                 'id': '4',
-                'name':'Kattle ball'
+                'name':'Kattle ball',
+                "accuracy": float(accuracy),
+                "time_predict": float(time_predict)
                 }
-        elif result == 4:
+        elif prediction == 4:
             return {
                 'id': '5',
-                'name':'Leg press'
+                'name':'Leg press',
+                "accuracy": float(accuracy),
+                "time_predict": float(time_predict)
                 }
-        elif result == 5:
+        elif prediction == 5:
             return {
                 'id': '6',
-                'name':'Punching bag'
+                'name':'Punching bag',
+                "accuracy": float(accuracy),
+                "time_predict": float(time_predict)
                 }
-        elif result == 6:
+        elif prediction == 6:
             return {
                 'id': '7',
-                'name':'Roller ABS'
+                'name':'Roller ABS',
+                "accuracy": float(accuracy),
+                "time_predict": float(time_predict)
                 }
-        elif result == 7:
+        elif prediction == 7:
             return {
                 'id': '8',
-                'name':'Statis bicycle'
+                'name':'Statis bicycle',
+                "accuracy": float(accuracy),
+                "time_predict": float(time_predict)
                 }
-        elif result == 8:
+        elif prediction == 8:
             return {
                 'id': '9',
-                'name':'Step'
+                'name':'Step',
+                "accuracy": float(accuracy),
+                "time_predict": float(time_predict)
                 }
-        elif result == 9:
+        elif prediction == 9:
             return {
                 'id': '10',
-                'name':'Treadmill'
+                'name':'Treadmill',
+                "accuracy": float(accuracy),
+                "time_predict": float(time_predict)
                 }
 
     except Exception as e:
